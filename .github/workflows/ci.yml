@@ -23,7 +23,7 @@ jobs:
         if: success() # always() failure() success()
         run: >
           mvn -B verify -DskipTests sonar:sonar
-          -Dsonar.projectKey=js-rom_betca-tpv-user
+          -Dsonar.projectKey=js-rom_test-app-backend
           -Dsonar.organization=js-rom
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.token=$SONAR_TOKEN
