@@ -1,0 +1,31 @@
+name: CI
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  ci:
+    name: Test - Unit & Integration & SonarCloud Scan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
+      - name: Unit & Integration Tests
+        run: mvn -B verify # -B: --batch-mode
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      - name: Sonar
+        if: success() # always() failure() success()
+        run: >
+          mvn -B verify -DskipTests sonar:sonar
+          -Dsonar.projectKey=js-rom_betca-tpv-user
+          -Dsonar.organization=js-rom
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.token=$SONAR_TOKEN
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
