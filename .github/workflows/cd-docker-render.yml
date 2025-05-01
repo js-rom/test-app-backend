@@ -58,4 +58,3 @@ jobs:
         run: |
            curl --fail -X POST "https://api.render.com/deploy/${{ secrets.DEPLOY_HOOK_TOKEN }}" || { echo "Deployment failed"; exit 1; }
            echo "Deployment succeeded"
-           
