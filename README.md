@@ -3,7 +3,7 @@
 [![CD](https://github.com/js-rom/test-app-backend/actions/workflows/cd-docker-render.yml/badge.svg)](https://github.com/js-rom/test-app-backend/actions/workflows/cd-docker-render.yml)
 [![Render](https://img.shields.io/website?url=https%3A%2F%2Ftest-app-backend-owlc.onrender.com)](https://test-app-backend-owlc.onrender.com)
 
-# TestAppFrontend
+# TestAppBackend
 
 Esta aplicacion es el Front-end del proyecto final para el ciclo superior de Desarrollo de Aplicaciones Web.
 
