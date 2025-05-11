@@ -3,18 +3,18 @@ package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 import jakarta.persistence.Entity;
 
 @Entity
-public class IncorrectOption extends Option {
+public class CorrectOptionEntity extends OptionEntity {
 
-    IncorrectOption() {
-        super.setCorrect(false);
+    CorrectOptionEntity() {
+        super.setCorrect(true);
     }
 
-    IncorrectOption(String description) {
+    CorrectOptionEntity(String description) {
         super(description);
         super.setCorrect(true);
     }
 
-    IncorrectOption(String id, String description) {
+    CorrectOptionEntity(String id, String description) {
         super(id, description);
         super.setCorrect(true);
     }
