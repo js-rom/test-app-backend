@@ -11,11 +11,11 @@ public class IncorrectOptionEntity extends OptionEntity {
 
     public IncorrectOptionEntity(String description) {
         super(description);
-        super.setCorrect(true);
+        super.setCorrect(false);
     }
 
     public IncorrectOptionEntity(String id, String description) {
         super(id, description);
-        super.setCorrect(true);
+        super.setCorrect(false);
     }
 }
