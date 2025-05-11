@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class CorrectOption extends Option {
 
-    CorrectOption() {
+    public CorrectOption() {
         super.setCorrect(true);
     }
 
-    CorrectOption(String id, String description) {
+    public CorrectOption(String id, String description) {
         super(id, description);
         super.setCorrect(true);
     }

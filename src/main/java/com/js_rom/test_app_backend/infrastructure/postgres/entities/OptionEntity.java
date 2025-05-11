@@ -15,7 +15,7 @@ import lombok.Data;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Option {
+public abstract class OptionEntity {
 
     @EqualsAndHashCode.Include
     @Id
@@ -23,16 +23,16 @@ public abstract class Option {
     private String description = "";
     private boolean isCorrect;
 
-    Option() {
+    OptionEntity() {
         this.id = UUID.randomUUID().toString();
     }
 
-    Option(String description) {
+    OptionEntity(String description) {
         this();
         this.description = description;
     }
 
-    Option(String id, String description) {
+    OptionEntity(String id, String description) {
         this.id = id;
         this.description = description;
     }
