@@ -5,16 +5,16 @@ import jakarta.persistence.Entity;
 @Entity
 public class IncorrectOptionEntity extends OptionEntity {
 
-    IncorrectOptionEntity() {
+    public IncorrectOptionEntity() {
         super.setCorrect(false);
     }
 
-    IncorrectOptionEntity(String description) {
+    public IncorrectOptionEntity(String description) {
         super(description);
         super.setCorrect(true);
     }
 
-    IncorrectOptionEntity(String id, String description) {
+    public IncorrectOptionEntity(String id, String description) {
         super(id, description);
         super.setCorrect(true);
     }
