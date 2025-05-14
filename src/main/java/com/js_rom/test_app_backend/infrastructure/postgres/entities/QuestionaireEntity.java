@@ -1,6 +1,11 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
 import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.BeanUtils;
+
+import com.js_rom.test_app_backend.domain.models.Questionaire;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,4 +33,16 @@ public class QuestionaireEntity {
     @Singular
     @OneToMany(cascade = CascadeType.ALL)
     private List<SingleSelectionQuestionEntity> singleSelectionQuestions;
+    
+    public QuestionaireEntity(Questionaire questionaire) {
+        BeanUtils.copyProperties(questionaire, this);
+        this.id = UUID.randomUUID().toString();
+    }
+
+    public Questionaire toQuestionaire() {
+        Questionaire questionaire = new Questionaire();
+        BeanUtils.copyProperties(this, questionaire);
+        return questionaire;
+    }
+
 }

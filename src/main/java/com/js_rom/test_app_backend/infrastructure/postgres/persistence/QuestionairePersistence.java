@@ -1,5 +1,21 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.persistence;
 
-public class QuestionairePersistence {
+import com.js_rom.test_app_backend.domain.models.Questionaire;
+import com.js_rom.test_app_backend.domain.out_ports.QuestionairePersistenceAdapter;
+import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepository;
+import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireEntity;
+
+public class QuestionairePersistence implements QuestionairePersistenceAdapter {
+
+    QuestionaireRepository questionaireRepository;
+
+    public QuestionairePersistence( QuestionaireRepository questionaireRepository){
+        this.questionaireRepository = questionaireRepository;
+    }
+
+    @Override
+    public Questionaire create(Questionaire questionaire) {
+       return this.questionaireRepository.save(new QuestionaireEntity(questionaire)).toQuestionaire();
+    }
 
 }
