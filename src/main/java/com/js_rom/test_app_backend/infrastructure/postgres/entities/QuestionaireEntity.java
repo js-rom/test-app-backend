@@ -3,6 +3,7 @@ package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.Singular;
 @Builder
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
 public class QuestionaireEntity {
 
     @EqualsAndHashCode.Include
