@@ -13,7 +13,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
-// @Profile("dev")
+// @Profile("dev") // comented: apply to all profiles (pro, dev, test) not comented: apply only to dev
 public class DatabaseSeederDev {
 
     private final OptionRepository optionRepository;
@@ -31,6 +31,7 @@ public class DatabaseSeederDev {
     }
 
     private void deleteAllAndInitialize() {
+        this.singleSelectionQuestionRepository.deleteAll();
         this.optionRepository.deleteAll();
         log.warn("------- Delete All -----------");
         // this.databaseStarting.initialize();
