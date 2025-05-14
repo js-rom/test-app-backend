@@ -1,10 +1,14 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.persistence;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
 import com.js_rom.test_app_backend.domain.models.Questionaire;
 import com.js_rom.test_app_backend.domain.out_ports.QuestionairePersistenceAdapter;
 import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepository;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireEntity;
 
+@Repository
 public class QuestionairePersistence implements QuestionairePersistenceAdapter {
 
     QuestionaireRepository questionaireRepository;
