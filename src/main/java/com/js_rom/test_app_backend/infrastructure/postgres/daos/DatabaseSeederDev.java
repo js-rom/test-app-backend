@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.CorrectOptionEntity;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.IncorrectOptionEntity;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.OptionEntity;
+import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireEntity;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.SingleSelectionQuestionEntity;
 
 import lombok.extern.log4j.Log4j2;
@@ -18,10 +19,14 @@ public class DatabaseSeederDev {
 
     private final OptionRepository optionRepository;
     private final SingleSelectionQuestionRepository singleSelectionQuestionRepository;
+    private final QuestionaireRepository questionaireRepository;
 
-    public DatabaseSeederDev(OptionRepository optionRepository, SingleSelectionQuestionRepository singleSelectionQuestionRepository) {
+    public DatabaseSeederDev(OptionRepository optionRepository, 
+    SingleSelectionQuestionRepository singleSelectionQuestionRepository,
+    QuestionaireRepository questionaireRepository) {
         this.optionRepository = optionRepository;
         this.singleSelectionQuestionRepository = singleSelectionQuestionRepository;
+        this.questionaireRepository = questionaireRepository;
         this.deleteAllAndInitializeAndSeedDataBase();
     }
 
@@ -31,6 +36,7 @@ public class DatabaseSeederDev {
     }
 
     private void deleteAllAndInitialize() {
+        this.questionaireRepository.deleteAll();
         this.singleSelectionQuestionRepository.deleteAll();
         this.optionRepository.deleteAll();
         log.warn("------- Delete All -----------");
@@ -41,50 +47,56 @@ public class DatabaseSeederDev {
         log.warn("------- Initial Load from JAVA -----------");
         log.warn("------- Load Options -----------");
         OptionEntity[] optionsSingleSelectionQuestion1 = {
-            new CorrectOptionEntity("a", "Cuestionario 1 Respuesta 1"),
-            new IncorrectOptionEntity("b", "Cuestionario 1 Respuesta 2"),
-            new IncorrectOptionEntity("c", "Cuestionario 1 Respuesta 3"),
-            new IncorrectOptionEntity("d", "Cuestionario 1 Respuesta 4")
+            new CorrectOptionEntity("a", "Pregunta 1 Respuesta 1"),
+            new IncorrectOptionEntity("b", "Pregunta 1 Respuesta 2"),
+            new IncorrectOptionEntity("c", "Pregunta 1 Respuesta 3"),
+            new IncorrectOptionEntity("d", "Pregunta 1 Respuesta 4")
         };
         this.optionRepository.saveAll(List.of(optionsSingleSelectionQuestion1));
         OptionEntity[] optionsSingleSelectionQuestion2 = {
-            new IncorrectOptionEntity("e", "Cuestionario 2 Respuesta 1"),
-            new CorrectOptionEntity("f", "Cuestionario 2 Respuesta 2"),
-            new IncorrectOptionEntity("g", "Cuestionario 2 Respuesta 3"),
-            new IncorrectOptionEntity("h", "Cuestionario 2 Respuesta 4")
+            new IncorrectOptionEntity("e", "Pregunta 2 Respuesta 1"),
+            new CorrectOptionEntity("f", "Pregunta 2 Respuesta 2"),
+            new IncorrectOptionEntity("g", "Pregunta 2 Respuesta 3"),
+            new IncorrectOptionEntity("h", "Pregunta 2 Respuesta 4")
         };
         this.optionRepository.saveAll(List.of(optionsSingleSelectionQuestion2));
         OptionEntity[] optionsSingleSelectionQuestion3 = {
-            new IncorrectOptionEntity("i", "Cuestionario 3 Respuesta 1"),
-            new IncorrectOptionEntity("j", "Cuestionario 3 Respuesta 2"),
-            new CorrectOptionEntity("k", "Cuestionario 3 Respuesta 3"),
-            new IncorrectOptionEntity("l", "Cuestionario 3 Respuesta 4")
+            new IncorrectOptionEntity("i", "Pregunta 3 Respuesta 1"),
+            new IncorrectOptionEntity("j", "Pregunta 3 Respuesta 2"),
+            new CorrectOptionEntity("k", "Pregunta 3 Respuesta 3"),
+            new IncorrectOptionEntity("l", "Pregunta 3 Respuesta 4")
         };
         this.optionRepository.saveAll(List.of(optionsSingleSelectionQuestion3));
         OptionEntity[] optionsSingleSelectionQuestion4 = {
-            new IncorrectOptionEntity("m", "Cuestionario 4 Respuesta 1"),
-            new IncorrectOptionEntity("n", "Cuestionario 4 Respuesta 2"),
-            new IncorrectOptionEntity("o", "Cuestionario 4 Respuesta 3"),
-            new CorrectOptionEntity("p", "Cuestionario 4 Respuesta 4")
+            new IncorrectOptionEntity("m", "Pregunta 4 Respuesta 1"),
+            new IncorrectOptionEntity("n", "Pregunta 4 Respuesta 2"),
+            new IncorrectOptionEntity("o", "Pregunta 4 Respuesta 3"),
+            new CorrectOptionEntity("p", "Pregunta 4 Respuesta 4")
         };
         this.optionRepository.saveAll(List.of(optionsSingleSelectionQuestion4));
         OptionEntity[] optionsSingleSelectionQuestion5 = {
-            new CorrectOptionEntity("q", "Cuestionario 5 Respuesta 1"),
-            new IncorrectOptionEntity("r", "Cuestionario 5 Respuesta 2"),
-            new IncorrectOptionEntity("s", "Cuestionario 5 Respuesta 3"),
-            new IncorrectOptionEntity("t", "Cuestionario 5 Respuesta 4")
+            new CorrectOptionEntity("q", "Pregunta 5 Respuesta 1"),
+            new IncorrectOptionEntity("r", "Pregunta 5 Respuesta 2"),
+            new IncorrectOptionEntity("s", "Pregunta 5 Respuesta 3"),
+            new IncorrectOptionEntity("t", "Pregunta 5 Respuesta 4")
         };
         this.optionRepository.saveAll(List.of(optionsSingleSelectionQuestion5));
+        
         log.warn("------- Load Single Selection Questions -----------");
-
         SingleSelectionQuestionEntity[] questions = {
-            new SingleSelectionQuestionEntity("a", "Cuestionario 1", List.of(optionsSingleSelectionQuestion1)),
-            new SingleSelectionQuestionEntity("b", "Cuestionario 2", List.of(optionsSingleSelectionQuestion2)),
-            new SingleSelectionQuestionEntity("c", "Cuestionario 3", List.of(optionsSingleSelectionQuestion3)),
-            new SingleSelectionQuestionEntity("d", "Cuestionario 4", List.of(optionsSingleSelectionQuestion4)),
-            new SingleSelectionQuestionEntity("e", "Cuestionario 5", List.of(optionsSingleSelectionQuestion5))
+            new SingleSelectionQuestionEntity("a", "Pregunta 1", List.of(optionsSingleSelectionQuestion1)),
+            new SingleSelectionQuestionEntity("b", "Pregunta 2", List.of(optionsSingleSelectionQuestion2)),
+            new SingleSelectionQuestionEntity("c", "Pregunta 3", List.of(optionsSingleSelectionQuestion3)),
+            new SingleSelectionQuestionEntity("d", "Pregunta 4", List.of(optionsSingleSelectionQuestion4)),
+            new SingleSelectionQuestionEntity("e", "Pregunta 5", List.of(optionsSingleSelectionQuestion5))
         };
         this.singleSelectionQuestionRepository.saveAll(List.of(questions));
         
+        log.warn("------- Load Questionaires -----------");
+        QuestionaireEntity[] questionaires = {
+            new QuestionaireEntity("a", "Cuestionario 1", List.of(questions[0], questions[1], questions[2])),
+            new QuestionaireEntity("b", "Cuestionario 2", List.of(questions[3], questions[4]))
+        };
+        this.questionaireRepository.saveAll(List.of(questionaires));
     }
 }
