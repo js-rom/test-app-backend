@@ -35,4 +35,6 @@ public abstract class Option {
         this.id = id;
         this.description = description;
     }
+
+    public abstract void accept(OptionVisitor optionVisitor);
 }

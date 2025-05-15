@@ -1,14 +1,17 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 
+import com.js_rom.test_app_backend.domain.models.CorrectOption;
+import com.js_rom.test_app_backend.domain.models.IncorrectOption;
+import com.js_rom.test_app_backend.domain.models.OptionVisitor;
 import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,7 +27,7 @@ import lombok.Singular;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Builder
-public class SingleSelectionQuestionEntity {
+public class SingleSelectionQuestionEntity implements OptionVisitor {
 
     @EqualsAndHashCode.Include
     @Id
@@ -41,8 +44,27 @@ public class SingleSelectionQuestionEntity {
     SingleSelectionQuestionEntity(SingleSelectionQuestion singleSelectionQuestion) {
         this.id = UUID.randomUUID().toString();
         BeanUtils.copyProperties(singleSelectionQuestion, this);
-          if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
-           // TODO 
+        if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
+            this.options = new ArrayList<>();
+            singleSelectionQuestion.getOptions().stream()
+                    .forEach(option -> option.accept(this));
         }
     }
+
+    @Override
+    public void visit(CorrectOption correctOption) {
+
+        CorrectOptionEntity correctOptionEntity = new CorrectOptionEntity(correctOption);
+        this.options.add(correctOptionEntity);
+
+    }
+
+    @Override
+    public void visit(IncorrectOption incorrectOption) {
+
+        IncorrectOptionEntity incorrectOptionEntity = new IncorrectOptionEntity(incorrectOption);
+        this.options.add(incorrectOptionEntity);
+
+    }
+
 }

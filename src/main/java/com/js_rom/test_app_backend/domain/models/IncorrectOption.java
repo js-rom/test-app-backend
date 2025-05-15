@@ -17,4 +17,9 @@ public class IncorrectOption extends Option {
         super(id, description);
         super.setCorrect(false);
     }
+
+    @Override
+    public void accept(OptionVisitor optionVisitor) {
+        optionVisitor.visit(this);
+    }
 }
