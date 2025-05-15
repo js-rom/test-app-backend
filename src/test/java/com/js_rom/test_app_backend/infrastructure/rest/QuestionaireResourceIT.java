@@ -17,6 +17,7 @@ import com.js_rom.test_app_backend.domain.models.IncorrectOption;
 import com.js_rom.test_app_backend.domain.models.Option;
 import com.js_rom.test_app_backend.domain.models.Questionaire;
 import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
+import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,6 +29,8 @@ class QuestionaireResourceIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
+    @Autowired
+    private QuestionaireRepository questionaireRepository;
 
     private String baseUrl() {
         return "http://localhost:" + port + QuestionaireResource.QUESTIONAIRE;
@@ -65,6 +68,10 @@ class QuestionaireResourceIT {
         assertEquals(Questionaire.class, response.getBody().getClass());
         assertEquals("Cuestionario 4", response.getBody().getDescription());
         assertNotNull(response.getBody().getId());
+
+        this.questionaireRepository.deleteById(response.getBody().getId());
+
+
     }
 
 }

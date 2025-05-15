@@ -6,4 +6,5 @@ public interface QuestionaireServiceAdapter {
 
     public Questionaire create(Questionaire questionaire);
 
+    public void delete(String id);
 }

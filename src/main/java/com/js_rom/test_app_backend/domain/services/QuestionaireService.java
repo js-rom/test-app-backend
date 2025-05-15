@@ -20,4 +20,9 @@ public class QuestionaireService implements QuestionaireServiceAdapter {
         return this.questionairePersistence.create(questionaire);
     }
 
+    @Override
+    public void delete(String id) {
+        this.questionairePersistence.delete(id);
+    }
+
 }

@@ -23,4 +23,9 @@ public class QuestionairePersistence implements QuestionairePersistenceAdapter {
 
     }
 
+    @Override
+    public void delete(String id) {
+       this.questionaireRepository.deleteById(id);
+    }
+
 }
