@@ -1,7 +1,6 @@
 package com.js_rom.test_app_backend.infrastructure.rest;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
@@ -17,7 +16,6 @@ import java.lang.annotation.Target;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
 @TestPropertySource(locations = "classpath:test.properties")
 @ActiveProfiles("dev")
 public @interface RestTestConfig {
