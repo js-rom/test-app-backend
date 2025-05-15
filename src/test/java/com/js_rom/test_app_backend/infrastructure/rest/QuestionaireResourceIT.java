@@ -36,25 +36,25 @@ class QuestionaireResourceIT {
     @Test
     void testCreate() {
         Option[] optionsSingleSelectionQuestion6 = {
-                new CorrectOption("u", "Pregunta 6 Respuesta 1"),
-                new IncorrectOption("v", "Pregunta 6 Respuesta 2"),
-                new IncorrectOption("w", "Pregunta 6 Respuesta 3"),
-                new IncorrectOption("x", "Pregunta 6 Respuesta 4")
+                new CorrectOption("cc", "Pregunta 8 Respuesta 1"),
+                new IncorrectOption("dd", "Pregunta 8 Respuesta 2"),
+                new IncorrectOption("ee", "Pregunta 8 Respuesta 3"),
+                new IncorrectOption("ff", "Pregunta 8 Respuesta 4")
         };
         Option[] optionsSingleSelectionQuestion7 = {
-                new IncorrectOption("y", "Pregunta 7 Respuesta 1"),
-                new CorrectOption("z", "Pregunta 7 Respuesta 2"),
-                new IncorrectOption("aa", "Pregunta 7 Respuesta 3"),
-                new IncorrectOption("bb", "Pregunta 7 Respuesta 4")
+                new IncorrectOption("gg", "Pregunta 9 Respuesta 1"),
+                new CorrectOption("hh", "Pregunta 9 Respuesta 2"),
+                new IncorrectOption("ii", "Pregunta 9 Respuesta 3"),
+                new IncorrectOption("jj", "Pregunta 9 Respuesta 4")
         };
 
         SingleSelectionQuestion[] questions = {
-                new SingleSelectionQuestion("f", "Pregunta 6", List.of(optionsSingleSelectionQuestion6)),
-                new SingleSelectionQuestion("g", "Pregunta 7", List.of(optionsSingleSelectionQuestion7))
+                new SingleSelectionQuestion("h", "Pregunta 8", List.of(optionsSingleSelectionQuestion6)),
+                new SingleSelectionQuestion("i", "Pregunta 9", List.of(optionsSingleSelectionQuestion7))
         };
 
         Questionaire questionaire = Questionaire.builder()
-                .description("Cuestionario 3")
+                .description("Cuestionario 4")
                 .singleSelectionQuestion(questions[0])
                 .singleSelectionQuestion(questions[1]).build();
 
@@ -63,7 +63,7 @@ class QuestionaireResourceIT {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertNotNull(response.getBody());
         assertEquals(Questionaire.class, response.getBody().getClass());
-        assertEquals("Cuestionario 3", response.getBody().getDescription());
+        assertEquals("Cuestionario 4", response.getBody().getDescription());
         assertNotNull(response.getBody().getId());
     }
 
