@@ -1,8 +1,14 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
+
+import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -30,5 +36,13 @@ public class SingleSelectionQuestionEntity {
 
     SingleSelectionQuestionEntity() {
         this.id = UUID.randomUUID().toString();
+    }
+
+    SingleSelectionQuestionEntity(SingleSelectionQuestion singleSelectionQuestion) {
+        this.id = UUID.randomUUID().toString();
+        BeanUtils.copyProperties(singleSelectionQuestion, this);
+          if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
+           // TODO 
+        }
     }
 }

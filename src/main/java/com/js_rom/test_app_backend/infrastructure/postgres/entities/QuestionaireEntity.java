@@ -1,6 +1,7 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -33,10 +34,15 @@ public class QuestionaireEntity {
     @Singular
     @OneToMany(cascade = CascadeType.ALL)
     private List<SingleSelectionQuestionEntity> singleSelectionQuestions;
-    
+
     public QuestionaireEntity(Questionaire questionaire) {
         BeanUtils.copyProperties(questionaire, this);
         this.id = UUID.randomUUID().toString();
+        if (Objects.nonNull(questionaire.getSingleSelectionQuestions())) {
+            this.singleSelectionQuestions = questionaire.getSingleSelectionQuestions().stream()
+                    .map(SingleSelectionQuestionEntity::new)
+                    .toList();
+        }
     }
 
     public Questionaire toQuestionaire() {
