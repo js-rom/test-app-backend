@@ -10,11 +10,11 @@ import lombok.ToString;
 public class IncorrectOption extends Option {
 
     public IncorrectOption() {
-        super.setCorrect(true);
+        super.setCorrect(false);
     }
 
     public IncorrectOption(String id, String description) {
         super(id, description);
-        super.setCorrect(true);
+        super.setCorrect(false);
     }
 }
