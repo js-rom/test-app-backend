@@ -17,4 +17,9 @@ public class CorrectOption extends Option {
         super(id, description);
         super.setCorrect(true);
     }
+
+    @Override
+    public void accept(OptionVisitor optionVisitor) {
+        optionVisitor.visit(this);
+    }
 }

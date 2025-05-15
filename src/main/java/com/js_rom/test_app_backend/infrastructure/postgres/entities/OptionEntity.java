@@ -2,6 +2,12 @@ package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.js_rom.test_app_backend.domain.models.Option;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -10,6 +16,15 @@ import lombok.EqualsAndHashCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = CorrectOptionEntity.class, name = "correct"),
+    @JsonSubTypes.Type(value = IncorrectOptionEntity.class, name = "incorrect")
+})
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -36,4 +51,5 @@ public abstract class OptionEntity {
         this.id = id;
         this.description = description;
     }
+
 }
