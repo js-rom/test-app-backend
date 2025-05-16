@@ -1,14 +1,15 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Function;
 
 import org.springframework.beans.BeanUtils;
 
 import com.js_rom.test_app_backend.domain.models.CorrectOption;
 import com.js_rom.test_app_backend.domain.models.IncorrectOption;
+import com.js_rom.test_app_backend.domain.models.Option;
 import com.js_rom.test_app_backend.domain.models.OptionVisitor;
 import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
 
@@ -27,7 +28,7 @@ import lombok.Singular;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Builder
-public class SingleSelectionQuestionEntity implements OptionVisitor {
+public class SingleSelectionQuestionEntity {
 
     @EqualsAndHashCode.Include
     @Id
@@ -45,26 +46,32 @@ public class SingleSelectionQuestionEntity implements OptionVisitor {
         this.id = UUID.randomUUID().toString();
         BeanUtils.copyProperties(singleSelectionQuestion, this);
         if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
-            this.options = new ArrayList<>();
-            singleSelectionQuestion.getOptions().stream()
-                    .forEach(option -> option.accept(this));
+            Visitor visitor = new Visitor();
+            this.options = singleSelectionQuestion.getOptions().stream()
+                    .map(visitor).toList();
         }
     }
 
-    @Override
-    public void visit(CorrectOption correctOption) {
+    class Visitor implements Function<Option, OptionEntity>, OptionVisitor {
 
-        CorrectOptionEntity correctOptionEntity = new CorrectOptionEntity(correctOption);
-        this.options.add(correctOptionEntity);
+        OptionEntity option;
 
-    }
+        public OptionEntity apply(Option option) {
+            option.accept(this);
+            return this.option;
+        }
 
-    @Override
-    public void visit(IncorrectOption incorrectOption) {
+        @Override
+        public void visit(CorrectOption correctOption) {
+            CorrectOptionEntity correctOptionEntity = new CorrectOptionEntity(correctOption);
+            this.option = correctOptionEntity;
+        }
 
-        IncorrectOptionEntity incorrectOptionEntity = new IncorrectOptionEntity(incorrectOption);
-        this.options.add(incorrectOptionEntity);
-
+        @Override
+        public void visit(IncorrectOption incorrectOption) {
+            IncorrectOptionEntity incorrectOptionEntity = new IncorrectOptionEntity(incorrectOption);
+            this.option = incorrectOptionEntity;
+        }
     }
 
 }
