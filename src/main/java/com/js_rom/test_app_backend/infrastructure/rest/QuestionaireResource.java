@@ -23,8 +23,11 @@ public class QuestionaireResource {
     }
 
     @PostMapping
-    public Questionaire create(@RequestBody Questionaire questionaire) {
-        return this.questionaireService.create(questionaire);
+    public QuestionaireDto create(@RequestBody QuestionaireDto questionaireDto) {
+        Questionaire questionaire = questionaireDto.toQuestionaire();
+        Questionaire questionaireOut = this.questionaireService.create(questionaire);
+        return new QuestionaireDto(questionaireOut);
+        //return new QuestionaireDto(this.questionaireService.create(questionaireDto.toQuestionaire()));
     }
 
     @DeleteMapping(ID_ID)

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 
 import com.js_rom.test_app_backend.domain.models.Questionaire;
+import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -50,6 +51,9 @@ public class QuestionaireEntity {
     public Questionaire toQuestionaire() {
         Questionaire questionaire = new Questionaire();
         BeanUtils.copyProperties(this, questionaire);
+        List<SingleSelectionQuestion> domainSingleSelectionQuestions = this.singleSelectionQuestions.stream()
+            .map(SingleSelectionQuestionEntity::toSingleSelectionQuestion).toList();
+        questionaire.setSingleSelectionQuestions(domainSingleSelectionQuestions);
         return questionaire;
     }
 
