@@ -3,6 +3,7 @@ package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 import org.springframework.beans.BeanUtils;
 
 import com.js_rom.test_app_backend.domain.models.CorrectOption;
+import com.js_rom.test_app_backend.domain.models.Option;
 
 import jakarta.persistence.Entity;
 
@@ -25,5 +26,12 @@ public class CorrectOptionEntity extends OptionEntity {
 
     public CorrectOptionEntity(CorrectOption correctOption) {
         BeanUtils.copyProperties(correctOption, this);
+    }
+
+    @Override
+    public Option toOption() {
+        Option correctOption = new CorrectOption();
+        BeanUtils.copyProperties(this, correctOption);
+        return correctOption;
     }
 }

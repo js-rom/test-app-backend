@@ -11,6 +11,7 @@ import com.js_rom.test_app_backend.domain.models.Questionaire;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class QuestionaireEntity {
     private String description;
     @Singular
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "questionaire_entity_id")
     private List<SingleSelectionQuestionEntity> singleSelectionQuestions;
 
     public QuestionaireEntity(Questionaire questionaire) {
