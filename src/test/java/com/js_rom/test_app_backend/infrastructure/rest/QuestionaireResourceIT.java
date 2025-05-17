@@ -61,17 +61,16 @@ class QuestionaireResourceIT {
                 .singleSelectionQuestion(questions[0])
                 .singleSelectionQuestion(questions[1]).build();
 
-        ResponseEntity<Questionaire> response = restTemplate.postForEntity(baseUrl(), questionaire, Questionaire.class);
+        QuestionaireDto questionaireDto = new QuestionaireDto(questionaire);
+        ResponseEntity<QuestionaireDto> response = restTemplate.postForEntity(baseUrl(), questionaireDto, QuestionaireDto.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertNotNull(response.getBody());
-        assertEquals(Questionaire.class, response.getBody().getClass());
+        assertEquals(QuestionaireDto.class, response.getBody().getClass());
         assertEquals("Cuestionario 4", response.getBody().getDescription());
         assertNotNull(response.getBody().getId());
-
-        this.questionaireRepository.deleteById(response.getBody().getId());
-
-
+        assertEquals(2, response.getBody().getSingleSelectionQuestionDtos().size());
+        assertEquals("hh", response.getBody().getSingleSelectionQuestionDtos().get(1).getOptions().get(1).getId());
     }
 
 }
