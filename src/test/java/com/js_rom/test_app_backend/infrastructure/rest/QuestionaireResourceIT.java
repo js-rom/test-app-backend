@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -72,6 +73,13 @@ class QuestionaireResourceIT {
                 assertEquals(4, response.getBody().getSingleSelectionQuestionDtos().get(0).getOptions().size());
                 assertEquals("hh",
                                 response.getBody().getSingleSelectionQuestionDtos().get(1).getOptions().get(1).getId());
+        }
+
+        @Test
+        void testDelete() {
+                String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "a");
+                ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         }
 
 }
