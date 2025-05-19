@@ -8,4 +8,6 @@ import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
 public interface SingleSelectedQuestionServiceAdapter {
 
     public SingleSelectionQuestion update(String id, SingleSelectionQuestion singleSelectionQuestion);
+
+    public void delete(String id);
 }

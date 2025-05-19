@@ -10,4 +10,6 @@ public interface SingleSelectionQuestionPersistenceAdapter {
     public SingleSelectionQuestion update(SingleSelectionQuestion singleSelectionQuestion);
 
     public SingleSelectionQuestion readById(String id);
+
+    public void delete(String id);
 }

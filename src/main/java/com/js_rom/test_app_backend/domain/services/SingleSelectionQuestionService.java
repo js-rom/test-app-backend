@@ -25,4 +25,9 @@ public class SingleSelectionQuestionService implements SingleSelectedQuestionSer
         return this.singleSelectionQuestionPersistence.update(newSingleSelectionQuestion);
     }
 
+    @Override
+    public void delete(String id) {
+       this.singleSelectionQuestionPersistence.delete(id);
+    }
+
 }
