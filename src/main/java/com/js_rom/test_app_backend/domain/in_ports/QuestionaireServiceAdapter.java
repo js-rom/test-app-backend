@@ -9,4 +9,6 @@ public interface QuestionaireServiceAdapter {
 
     public void delete(String id);
 
+    public SingleSelectionQuestion create(String questionaireId, SingleSelectionQuestion singleSelectionQuestion);
+
 }

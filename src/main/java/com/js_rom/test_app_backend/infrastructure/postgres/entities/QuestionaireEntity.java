@@ -66,4 +66,8 @@ public class QuestionaireEntity {
         } */
     }
 
+    public void add(SingleSelectionQuestionEntity singleSelectionQuestionEntity) {
+        this.singleSelectionQuestions.add(singleSelectionQuestionEntity);
+    }
+
 }

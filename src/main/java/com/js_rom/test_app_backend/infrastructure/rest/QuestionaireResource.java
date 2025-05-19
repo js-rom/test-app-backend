@@ -3,13 +3,11 @@ package com.js_rom.test_app_backend.infrastructure.rest;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.js_rom.test_app_backend.domain.in_ports.QuestionaireServiceAdapter;
-import com.js_rom.test_app_backend.domain.models.Questionaire;
 
 @RestController
 @RequestMapping(QuestionaireResource.QUESTIONAIRE)
@@ -32,6 +30,12 @@ public class QuestionaireResource {
     @DeleteMapping(ID_ID)
     public void delete(@PathVariable String id) {
         this.questionaireService.delete(id);
+    }
+
+    @PostMapping(ID_ID)
+    public SingleSelectionQuestionDto createQuestion(@PathVariable String id, @RequestBody SingleSelectionQuestionDto questionDto) {
+        return new SingleSelectionQuestionDto(
+                this.questionaireService.create(id, questionDto.toSingleSelectionQuestion()));
     }
     
 }
