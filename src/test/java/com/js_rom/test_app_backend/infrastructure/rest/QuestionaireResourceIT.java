@@ -77,7 +77,7 @@ class QuestionaireResourceIT {
 
         @Test
         void testDelete() {
-                String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "a");
+                String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "b");
                 ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
                 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         }
