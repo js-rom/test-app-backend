@@ -1,5 +1,8 @@
 package com.js_rom.test_app_backend.domain.services;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.stereotype.Service;
 
 import com.js_rom.test_app_backend.domain.in_ports.QuestionaireServiceAdapter;
@@ -29,6 +32,11 @@ public class QuestionaireService implements QuestionaireServiceAdapter {
     @Override
     public SingleSelectionQuestion create(String questionaireId, SingleSelectionQuestion singleSelectionQuestion) {
         return this.questionairePersistence.create(questionaireId, singleSelectionQuestion);
+    }
+
+    @Override
+    public List<Questionaire> readAll() {
+        return this.questionairePersistence.readAll();
     }
 
 }
