@@ -52,4 +52,6 @@ public abstract class OptionEntity {
         this.description = description;
     }
 
+    public abstract Option toOption();
+
 }

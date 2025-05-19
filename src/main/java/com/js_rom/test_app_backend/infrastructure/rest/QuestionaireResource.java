@@ -1,7 +1,9 @@
 package com.js_rom.test_app_backend.infrastructure.rest;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +25,13 @@ public class QuestionaireResource {
     }
 
     @PostMapping
-    public Questionaire create(@RequestBody Questionaire questionaire) {
-        return this.questionaireService.create(questionaire);
+    public QuestionaireDto create(@RequestBody QuestionaireDto questionaireDto) {
+        return new QuestionaireDto(this.questionaireService.create(questionaireDto.toQuestionaire()));
     }
 
     @DeleteMapping(ID_ID)
     public void delete(@PathVariable String id) {
         this.questionaireService.delete(id);
     }
+    
 }

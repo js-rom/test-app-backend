@@ -1,5 +1,6 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +16,9 @@ import com.js_rom.test_app_backend.domain.models.SingleSelectionQuestion;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,21 +38,37 @@ public class SingleSelectionQuestionEntity {
     private String id;
     private String description;
     @Singular
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<OptionEntity> options;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "single_selection_question_entity_id")
+    private List<OptionEntity> options = new ArrayList<>();
 
-    SingleSelectionQuestionEntity() {
-        this.id = UUID.randomUUID().toString();
+    public SingleSelectionQuestionEntity() {
+        this.doDefault();
     }
 
-    SingleSelectionQuestionEntity(SingleSelectionQuestion singleSelectionQuestion) {
-        this.id = UUID.randomUUID().toString();
+    public void doDefault() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
+
+    public SingleSelectionQuestionEntity(SingleSelectionQuestion singleSelectionQuestion) {
+        this.fromSingleSelectionQuestion(singleSelectionQuestion);
+    }
+
+    public void fromSingleSelectionQuestion(SingleSelectionQuestion singleSelectionQuestion) {
         BeanUtils.copyProperties(singleSelectionQuestion, this);
         if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
             Visitor visitor = new Visitor();
-            this.options = singleSelectionQuestion.getOptions().stream()
-                    .map(visitor).toList();
+            singleSelectionQuestion.getOptions().stream()
+                    .map(visitor)
+                    .forEach(this::add);
         }
+        this.doDefault();
+    }
+
+    public void add(OptionEntity optionEntity) {
+        this.options.add(optionEntity);
     }
 
     class Visitor implements Function<Option, OptionEntity>, OptionVisitor {
@@ -72,6 +91,15 @@ public class SingleSelectionQuestionEntity {
             IncorrectOptionEntity incorrectOptionEntity = new IncorrectOptionEntity(incorrectOption);
             this.option = incorrectOptionEntity;
         }
+    }
+
+    public SingleSelectionQuestion toSingleSelectionQuestion() {
+        SingleSelectionQuestion singleSelectionQuestion = new SingleSelectionQuestion();
+        BeanUtils.copyProperties(this, singleSelectionQuestion);
+        List<Option> domainOptions = this.options.stream()
+                .map(OptionEntity::toOption).toList();
+        singleSelectionQuestion.setOptions(domainOptions);
+        return singleSelectionQuestion;
     }
 
 }
