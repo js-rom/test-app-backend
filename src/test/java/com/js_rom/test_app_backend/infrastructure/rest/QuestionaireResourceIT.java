@@ -82,4 +82,27 @@ class QuestionaireResourceIT {
                 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         }
 
+        @Test
+        void testCreateQuestion() {
+
+                Option[] optionsSingleSelectionQuestion = {
+                                new IncorrectOption("kk", "Pregunta 10 Respuesta 1"),
+                                new CorrectOption("ll", "Pregunta 10 Respuesta 2"),
+                                new IncorrectOption("mm", "Pregunta 10 Respuesta 3"),
+                                new IncorrectOption("nn", "Pregunta 10 Respuesta 4")
+                };
+
+                SingleSelectionQuestion newQuestion = new SingleSelectionQuestion("i", "Pregunta 10",
+                                List.of(optionsSingleSelectionQuestion));
+                SingleSelectionQuestionDto questionDto = new SingleSelectionQuestionDto(newQuestion);
+                String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "a");
+                ResponseEntity<SingleSelectionQuestionDto> response = restTemplate.postForEntity(url, questionDto,
+                SingleSelectionQuestionDto.class);
+
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertNotNull(response.getBody());
+                assertEquals(SingleSelectionQuestionDto.class, response.getBody().getClass());
+                assertEquals("Pregunta 10", response.getBody().getDescription());
+        }
+
 }
