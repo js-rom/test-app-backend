@@ -5,7 +5,7 @@
 
 # TestAppBackend
 
-Esta aplicacion es el Front-end del proyecto final para el ciclo superior de Desarrollo de Aplicaciones Web.
+Esta aplicacion es el Back-end del proyecto final para el ciclo superior de Desarrollo de Aplicaciones Web.
 
 💡 El proyecto consiste en desarrollar una aplicación web para una institución educativa. Esta herramienta permitirá:
 
