@@ -10,4 +10,7 @@ public interface QuestionairePersistenceAdapter {
     public Questionaire create(Questionaire questionaire);
 
     public void delete(String id);
+
+    public Questionaire readById(String id);
+
 }

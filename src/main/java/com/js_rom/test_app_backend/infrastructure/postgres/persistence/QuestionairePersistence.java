@@ -2,6 +2,7 @@ package com.js_rom.test_app_backend.infrastructure.postgres.persistence;
 
 import org.springframework.stereotype.Repository;
 
+import com.js_rom.test_app_backend.domain.exceptions.NotFoundException;
 import com.js_rom.test_app_backend.domain.models.Questionaire;
 import com.js_rom.test_app_backend.domain.out_ports.QuestionairePersistenceAdapter;
 import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepository;
@@ -25,7 +26,14 @@ public class QuestionairePersistence implements QuestionairePersistenceAdapter {
 
     @Override
     public void delete(String id) {
-       this.questionaireRepository.deleteById(id);
+        this.questionaireRepository.deleteById(id);
+    }
+
+    @Override
+    public Questionaire readById(String id) {
+        return this.questionaireRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Quetionaire ID: " + id))
+                .toQuestionaire();
     }
 
 }

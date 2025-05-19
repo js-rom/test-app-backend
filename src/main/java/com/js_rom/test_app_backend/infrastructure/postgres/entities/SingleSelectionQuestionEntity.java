@@ -1,5 +1,6 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -37,9 +38,9 @@ public class SingleSelectionQuestionEntity {
     private String id;
     private String description;
     @Singular
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "single_selection_question_entity_id")
-    private List<OptionEntity> options;
+    private List<OptionEntity> options = new ArrayList<>();
 
     public SingleSelectionQuestionEntity() {
         this.doDefault();
@@ -53,16 +54,21 @@ public class SingleSelectionQuestionEntity {
 
     public SingleSelectionQuestionEntity(SingleSelectionQuestion singleSelectionQuestion) {
         this.fromSingleSelectionQuestion(singleSelectionQuestion);
-        this.doDefault();
     }
 
     public void fromSingleSelectionQuestion(SingleSelectionQuestion singleSelectionQuestion) {
         BeanUtils.copyProperties(singleSelectionQuestion, this);
         if (Objects.nonNull(singleSelectionQuestion.getOptions())) {
             Visitor visitor = new Visitor();
-            this.options = singleSelectionQuestion.getOptions().stream()
-                    .map(visitor).toList();
+            singleSelectionQuestion.getOptions().stream()
+                    .map(visitor)
+                    .forEach(this::add);
         }
+        this.doDefault();
+    }
+
+    public void add(OptionEntity optionEntity) {
+        this.options.add(optionEntity);
     }
 
     class Visitor implements Function<Option, OptionEntity>, OptionVisitor {
