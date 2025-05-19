@@ -1,5 +1,8 @@
 package com.js_rom.test_app_backend.infrastructure.postgres.persistence;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.stereotype.Repository;
 
 import com.js_rom.test_app_backend.domain.exceptions.NotFoundException;
@@ -10,6 +13,8 @@ import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepo
 import com.js_rom.test_app_backend.infrastructure.postgres.daos.SingleSelectionQuestionRepository;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireEntity;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.SingleSelectionQuestionEntity;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public class QuestionairePersistence implements QuestionairePersistenceAdapter {
@@ -53,6 +58,17 @@ public class QuestionairePersistence implements QuestionairePersistenceAdapter {
         return this.singleSelectionQuestionRepository.findById(newSingleSelectionQuestionEntity.getId())
                 .orElseThrow(() -> new NotFoundException("Quetion ID: " + newSingleSelectionQuestionEntity.getId()))
                 .toSingleSelectionQuestion();
+    }
+
+    @Override
+    public List<Questionaire> readAll() {
+        return this.questionaireRepository.readAllBasicQuestionaire().stream()
+            .map(questionaireSummary -> {
+                Questionaire questionaire = new Questionaire();
+                questionaire.setId(questionaireSummary.getId());
+                questionaire.setDescription(questionaireSummary.getDescription());
+                return questionaire;
+            }).toList();
     }
 
 }

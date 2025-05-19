@@ -1,5 +1,8 @@
 package com.js_rom.test_app_backend.infrastructure.rest;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.js_rom.test_app_backend.domain.in_ports.QuestionaireServiceAdapter;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping(QuestionaireResource.QUESTIONAIRE)
@@ -37,5 +44,12 @@ public class QuestionaireResource {
         return new SingleSelectionQuestionDto(
                 this.questionaireService.create(id, questionDto.toSingleSelectionQuestion()));
     }
+
+    @GetMapping()
+    public List<BasicQuestionaireDto> readAll() {
+        return this.questionaireService.readAll().stream()
+            .map(BasicQuestionaireDto::new).toList();
+    }
+    
     
 }
