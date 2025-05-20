@@ -17,4 +17,6 @@ public interface QuestionaireServiceAdapter {
 
     public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id);
 
+    public Questionaire readBasicQuestionaireBy(String id);
+
 }
