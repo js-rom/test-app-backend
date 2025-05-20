@@ -24,49 +24,60 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RestTestConfig
 class SingleSelectionQuestionResourceIT {
 
-    @LocalServerPort
-    private int port;
+        @LocalServerPort
+        private int port;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+        @Autowired
+        private TestRestTemplate restTemplate;
 
-    private String baseUrl() {
-        return "http://localhost:" + port + SingleSelectionQuestionResource.SINGLE_SELECTION_QUESTION;
-    }
+        private String baseUrl() {
+                return "http://localhost:" + port + SingleSelectionQuestionResource.SINGLE_SELECTION_QUESTION;
+        }
 
-    @Test
-    void testUpdate() {
-        Option[] updatedOptions = {
-                new IncorrectOption("anew", "Pregunta 1 Respuesta 1 actualizada incorrecta"),
-                new IncorrectOption("bnew", "Pregunta 1 Respuesta 2 actualizada incorrecta"),
-                new IncorrectOption("cnew", "Pregunta 1 Respuesta 3 actualizada incorrecta"),
-                new CorrectOption("dnew", "Pregunta 1 Respuesta 4 actualizada correcta")
-        };
+        @Test
+        void testUpdate() {
+                Option[] updatedOptions = {
+                                new IncorrectOption("anew", "Pregunta 1 Respuesta 1 actualizada incorrecta"),
+                                new IncorrectOption("bnew", "Pregunta 1 Respuesta 2 actualizada incorrecta"),
+                                new IncorrectOption("cnew", "Pregunta 1 Respuesta 3 actualizada incorrecta"),
+                                new CorrectOption("dnew", "Pregunta 1 Respuesta 4 actualizada correcta")
+                };
 
-        SingleSelectionQuestion singleSelectionQuestion = new SingleSelectionQuestion("a", "Pregunta 1 actualizada",
-                List.of(updatedOptions));
+                SingleSelectionQuestion singleSelectionQuestion = new SingleSelectionQuestion("a",
+                                "Pregunta 1 actualizada",
+                                List.of(updatedOptions));
 
-        SingleSelectionQuestionDto dto = new SingleSelectionQuestionDto(singleSelectionQuestion);
+                SingleSelectionQuestionDto dto = new SingleSelectionQuestionDto(singleSelectionQuestion);
 
-        String url = baseUrl().replace("{questionaireId}", "a")
-                + SingleSelectionQuestionResource.ID_ID.replace("{id}", "a");
-        ResponseEntity<SingleSelectionQuestionDto> response = restTemplate.exchange(url, HttpMethod.PUT,
-                new HttpEntity<>(dto), SingleSelectionQuestionDto.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertNotNull(response.getBody());
-        assertEquals("a", response.getBody().getId());
-        assertEquals(4, response.getBody().getOptions().size());
-        assertEquals("Pregunta 1 actualizada", response.getBody().getDescription());
-        assertEquals(3, response.getBody().getCorrectOptionIndex());
-        assertEquals("Pregunta 1 Respuesta 4 actualizada correcta",
-                response.getBody().getOptions().get(3).getDescription());
-    }
+                String url = baseUrl().replace("{questionaireId}", "a")
+                                + SingleSelectionQuestionResource.ID_ID.replace("{id}", "a");
+                ResponseEntity<SingleSelectionQuestionDto> response = restTemplate.exchange(url, HttpMethod.PUT,
+                                new HttpEntity<>(dto), SingleSelectionQuestionDto.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertNotNull(response.getBody());
+                assertEquals("a", response.getBody().getId());
+                assertEquals(4, response.getBody().getOptions().size());
+                assertEquals("Pregunta 1 actualizada", response.getBody().getDescription());
+                assertEquals(3, response.getBody().getCorrectOptionIndex());
+                assertEquals("Pregunta 1 Respuesta 4 actualizada correcta",
+                                response.getBody().getOptions().get(3).getDescription());
+        }
 
-    @Test
-    void testDelete() {
-        String url = baseUrl().replace("{questionaireId}", "a")
-                + SingleSelectionQuestionResource.ID_ID.replace("{id}", "b");
-        ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    }
+        @Test
+        void testDelete() {
+                String url = baseUrl().replace("{questionaireId}", "a")
+                                + SingleSelectionQuestionResource.ID_ID.replace("{id}", "b");
+                ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.DELETE, null, Void.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        }
+
+        @Test
+        void testReadAllQuestionByQuestionaireId() {
+                String url = baseUrl().replace("{questionaireId}", "a");
+                ResponseEntity<SingleSelectionQuestionDto[]> response = restTemplate.getForEntity(url,
+                SingleSelectionQuestionDto[].class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertNotNull(response.getBody());
+                assertEquals(SingleSelectionQuestionDto.class, response.getBody()[0].getClass());
+        }
 }

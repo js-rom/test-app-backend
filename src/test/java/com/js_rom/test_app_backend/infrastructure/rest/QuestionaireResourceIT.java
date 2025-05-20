@@ -69,10 +69,10 @@ class QuestionaireResourceIT {
                 assertEquals(QuestionaireDto.class, response.getBody().getClass());
                 assertEquals("Cuestionario 4", response.getBody().getDescription());
                 assertNotNull(response.getBody().getId());
-                assertEquals(2, response.getBody().getSingleSelectionQuestionDtos().size());
-                assertEquals(4, response.getBody().getSingleSelectionQuestionDtos().get(0).getOptions().size());
+                assertEquals(2, response.getBody().getSingleSelectionQuestions().size());
+                assertEquals(4, response.getBody().getSingleSelectionQuestions().get(0).getOptions().size());
                 assertEquals("hh",
-                                response.getBody().getSingleSelectionQuestionDtos().get(1).getOptions().get(1).getId());
+                                response.getBody().getSingleSelectionQuestions().get(1).getOptions().get(1).getId());
         }
 
         @Test
@@ -97,7 +97,7 @@ class QuestionaireResourceIT {
                 SingleSelectionQuestionDto questionDto = new SingleSelectionQuestionDto(newQuestion);
                 String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "a");
                 ResponseEntity<SingleSelectionQuestionDto> response = restTemplate.postForEntity(url, questionDto,
-                SingleSelectionQuestionDto.class);
+                                SingleSelectionQuestionDto.class);
 
                 assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
                 assertNotNull(response.getBody());
@@ -105,4 +105,24 @@ class QuestionaireResourceIT {
                 assertEquals("Pregunta 10", response.getBody().getDescription());
         }
 
+        @Test
+        void testReadAll() {
+                ResponseEntity<BasicQuestionaireDto[]> response = restTemplate.getForEntity(baseUrl(),
+                                BasicQuestionaireDto[].class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertNotNull(response.getBody());
+                assertEquals(BasicQuestionaireDto.class, response.getBody()[0].getClass());
+        }
+
+        @Test
+        void getBasicQuestionaireBy() {
+                String url = baseUrl() + QuestionaireResource.ID_ID.replace("{id}", "a");
+                ResponseEntity<BasicQuestionaireDto> response = restTemplate.getForEntity(url,
+                                BasicQuestionaireDto.class);
+                assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+                assertNotNull(response.getBody());
+                assertEquals("a", response.getBody().getId());
+                assertEquals("Cuestionario 1", response.getBody().getDescription());
+                assertEquals(BasicQuestionaireDto.class, response.getBody().getClass());
+        }
 }
