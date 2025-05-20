@@ -19,4 +19,6 @@ public interface QuestionairePersistenceAdapter {
     public SingleSelectionQuestion create(String questionaireId, SingleSelectionQuestion singleSelectionQuestion);
 
     public List<Questionaire> readAll();
+
+    public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id);
 }

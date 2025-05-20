@@ -63,12 +63,18 @@ public class QuestionairePersistence implements QuestionairePersistenceAdapter {
     @Override
     public List<Questionaire> readAll() {
         return this.questionaireRepository.readAllBasicQuestionaire().stream()
-            .map(questionaireSummary -> {
-                Questionaire questionaire = new Questionaire();
-                questionaire.setId(questionaireSummary.getId());
-                questionaire.setDescription(questionaireSummary.getDescription());
-                return questionaire;
-            }).toList();
+                .map(questionaireSummary -> {
+                    Questionaire questionaire = new Questionaire();
+                    questionaire.setId(questionaireSummary.getId());
+                    questionaire.setDescription(questionaireSummary.getDescription());
+                    return questionaire;
+                }).toList();
+    }
+
+    @Override
+    public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id) {
+        Questionaire questionaire = this.readById(id);
+        return questionaire.getSingleSelectionQuestions();
     }
 
 }
