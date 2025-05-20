@@ -39,4 +39,9 @@ public class QuestionaireService implements QuestionaireServiceAdapter {
         return this.questionairePersistence.readAll();
     }
 
+    @Override
+    public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id) {
+        return this.questionairePersistence.readAllQuestionByQuestionaireId(id);
+    }
+
 }
