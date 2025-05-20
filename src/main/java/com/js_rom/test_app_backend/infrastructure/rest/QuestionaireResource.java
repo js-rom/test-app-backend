@@ -51,4 +51,10 @@ public class QuestionaireResource {
             .map(BasicQuestionaireDto::new).toList();
     }
 
+    
+    @GetMapping(ID_ID)
+    public BasicQuestionaireDto getBasicQuestionaireBy(@PathVariable String id) {
+        return new BasicQuestionaireDto(this.questionaireService.readBasicQuestionaireBy(id));
+    }
+
 }

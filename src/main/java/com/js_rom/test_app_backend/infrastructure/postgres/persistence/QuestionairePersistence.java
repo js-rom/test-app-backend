@@ -12,6 +12,7 @@ import com.js_rom.test_app_backend.domain.out_ports.QuestionairePersistenceAdapt
 import com.js_rom.test_app_backend.infrastructure.postgres.daos.QuestionaireRepository;
 import com.js_rom.test_app_backend.infrastructure.postgres.daos.SingleSelectionQuestionRepository;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireEntity;
+import com.js_rom.test_app_backend.infrastructure.postgres.entities.QuestionaireSummary;
 import com.js_rom.test_app_backend.infrastructure.postgres.entities.SingleSelectionQuestionEntity;
 
 import jakarta.transaction.Transactional;
@@ -75,6 +76,16 @@ public class QuestionairePersistence implements QuestionairePersistenceAdapter {
     public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id) {
         Questionaire questionaire = this.readById(id);
         return questionaire.getSingleSelectionQuestions();
+    }
+
+    @Override
+    public Questionaire readBasicQuestionaireBy(String id) {
+        QuestionaireSummary basicQuestionaire = this.questionaireRepository.readBasicQuestionaireById(id)
+                .orElseThrow(() -> new NotFoundException("Quetionaire ID: " + id));
+        Questionaire questionaire = new Questionaire();
+        questionaire.setId(basicQuestionaire.getId());
+        questionaire.setDescription(basicQuestionaire.getDescription());    
+        return questionaire;
     }
 
 }

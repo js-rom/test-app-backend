@@ -21,4 +21,6 @@ public interface QuestionairePersistenceAdapter {
     public List<Questionaire> readAll();
 
     public List<SingleSelectionQuestion> readAllQuestionByQuestionaireId(String id);
+
+    public Questionaire readBasicQuestionaireBy(String id);
 }
