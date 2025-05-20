@@ -20,18 +20,18 @@ public class QuestionaireDto {
 
     private String id;
     private String description;
-    private List<SingleSelectionQuestionDto> singleSelectionQuestionDtos;
+    private List<SingleSelectionQuestionDto> singleSelectionQuestions;
 
     public QuestionaireDto(Questionaire questionaire) {
         BeanUtils.copyProperties(questionaire, this);
-        this.singleSelectionQuestionDtos = questionaire.getSingleSelectionQuestions().stream()
+        this.singleSelectionQuestions = questionaire.getSingleSelectionQuestions().stream()
                 .map(SingleSelectionQuestionDto::new).toList();
     }
 
     public Questionaire toQuestionaire() {
         Questionaire questionaire = new Questionaire();
         BeanUtils.copyProperties(this, questionaire);
-        List<SingleSelectionQuestion> singleSelectionQuestion = this.singleSelectionQuestionDtos.stream()
+        List<SingleSelectionQuestion> singleSelectionQuestion = this.singleSelectionQuestions.stream()
                 .map(SingleSelectionQuestionDto::toSingleSelectionQuestion).toList();
         questionaire.setSingleSelectionQuestions(singleSelectionQuestion);
         return questionaire;
