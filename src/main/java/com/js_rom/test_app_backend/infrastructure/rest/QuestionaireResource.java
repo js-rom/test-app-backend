@@ -50,10 +50,5 @@ public class QuestionaireResource {
         return this.questionaireService.readAll().stream()
             .map(BasicQuestionaireDto::new).toList();
     }
-    
-    @GetMapping(ID_ID)
-    public List<SingleSelectionQuestionDto> readAllQuestionByQuestionaireId(@PathVariable String id) {
-        return this.questionaireService.readAllQuestionByQuestionaireId(id).stream()
-            .map(SingleSelectionQuestionDto::new).toList();
-    }
+
 }
